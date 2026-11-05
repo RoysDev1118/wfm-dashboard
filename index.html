@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- Иконка для iOS (Apple) -->
 <link rel="apple-touch-icon" href="icon.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Панель оператора: Статусы сотрудников</title>
@@ -167,7 +167,9 @@
                 else {
                     statusHtml = '<span class="status-badge status-resting">Отдыхает</span>';
                     if (todayShift && todayShift.time_start) {
-                        timeHtml = `<span class="time-none">Работал с ${formatTime(todayShift.time_start)}</span>`;
+                        // Формируем строчку с временем чекаута, если оно передано из Supabase
+                        const checkoutTime = todayShift.time_end ? ` до ${formatTime(todayShift.time_end)}` : '';
+                        timeHtml = `<span class="time-none">Работал с ${formatTime(todayShift.time_start)}${checkoutTime}</span>`;
                     } else {
                         timeHtml = '<span class="time-none">—</span>';
                     }
