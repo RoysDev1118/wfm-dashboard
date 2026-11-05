@@ -78,11 +78,6 @@
     const SUPABASE_URL = "https://qxpnzaokqdctnfiqrrvx.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4cG56YW9rcWRjdG5maXFycnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0MzA1OTAsImV4cCI6MjEwNjAwNjU5MH0.F8Or6x0QaghtTd4I_CZZA1LkXkgGYrbDraDmudQCEAc";
 
-    // Регистрация Сервис-Воркера для работы в режиме приложения (PWA)
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
         loadDashboardData();
     });
@@ -207,6 +202,15 @@
     function escapeHtml(string) {
         return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg.scope))
+        .catch((err) => console.error('Ошибка регистрации Service Worker:', err));
+    });
+  }
 </script>
 </body>
 </html>
