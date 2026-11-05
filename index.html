@@ -204,12 +204,56 @@
     }
 </script>
 <script>
+  let deferredPrompt;
+
+  // 1. Регистрация Сервис-Воркера
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg.scope))
-        .catch((err) => console.error('Ошибка регистрации Service Worker:', err));
+        .then((reg) => console.log('Service Worker зарегистрирован', reg.scope))
+        .catch((err) => console.error('Ошибка SW:', err));
     });
+  }
+
+  // 2. Ловим событие готовности к установке PWA
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Не даем браузеру показать стандартную мини-плашку снизу
+    e.preventDefault();
+    // Сохраняем событие, чтобы вызвать его по клику на кнопку
+    deferredPrompt = e;
+    
+    // Находим вашу синюю кнопку обновления данных
+    const refreshBtn = document.querySelector('.refresh-btn');
+    if (refreshBtn) {
+      // Меняем текст кнопки, чтобы пользователь знал, что можно установить приложение
+      refreshBtn.innerHTML = '✨ Установить приложение';
+      
+      // Меняем логику кнопки: теперь первый клик будет вызывать установку
+      refreshBtn.addEventListener('click', installAppWorkflow);
+    }
+  });
+
+  async function installAppWorkflow(e) {
+    if (!deferredPrompt) return;
+    
+    // Показываем системное окно установки
+    deferredPrompt.prompt();
+    
+    // Ждем выбора пользователя
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`Пользователь выбрал: ${outcome}`);
+    
+    // Очищаем переменную, так как prompt() можно вызвать только один раз
+    deferredPrompt = null; 
+    
+    // Возвращаем кнопке её исходный вид и перезагружаем страницу
+    const refreshBtn = document.querySelector('.refresh-btn');
+    if (refreshBtn) {
+      refreshBtn.innerHTML = '🔄 Обновить данные';
+      // Удаляем этот обработчик, чтобы кнопка снова работала как обычное обновление
+      refreshBtn.removeEventListener('click', installAppWorkflow);
+    }
+    window.location.reload();
   }
 </script>
 </body>
