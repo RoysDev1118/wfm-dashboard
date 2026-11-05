@@ -3,8 +3,8 @@
   "name": "WFM Мониторинг сотрудников",
   "icons": [
     {
-      "src": "data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' rx='110' fill='%23007aff'/><path d='M192 192c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm0 32c-42.3 0-128 21.3-128 64v32h256v-32c0-42.7-85.7-64-128-64zm192-32c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40zm0 24c-12.2 0-25.1 1.7-37.4 4.8 20.8 15.6 37.4 37.9 37.4 67.2v32h128v-32c0-34.7-69.3-54-128-54z' fill='white'/></svg>",
-      "type": "image/svg+xml",
+      "src": "icon.png",
+      "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     }
